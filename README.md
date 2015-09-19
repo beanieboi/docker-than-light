@@ -1,4 +1,34 @@
-##Summary
+## Setup
+To get set up with this project you'll need a couple of things
+
+1. [Docker experimental](https://github.com/docker/docker/tree/master/experimental)
+2. [Docker machine](https://docs.docker.com/machine/install-machine/)
+3. [calicoctl binary](https://github.com/projectcalico/calico-docker/releases/tag/v0.6.0)
+
+First lets create a swarm, run `create_swarm.sh` and it'll set you up with a simple local swarm with two nodes.
+
+Next scp calicoctl to each swarm node, and run it:
+
+```
+docker-machine scp calicoctl swarm-master:
+docker-machine scp calicoctl swarm-agent-00:
+docker-machine scp calicoctl swarm-agent-01:
+docker-machine ssh swarm-master sudo ./calicoctl node --libnetwork
+docker-machine ssh swarm-master sudo ./calicoctl node --libnetwork
+docker-machine ssh swarm-master sudo ./calicoctl node --libnetwork
+```
+
+Finally you'll be able to create containers on specific networks:
+
+```
+docker run --publish-service srvA.net1.calico --name workload-A -tid busybox
+docker run --publish-service srvB.net2.calico --name workload-B -tid busybox
+docker run --publish-service srvC.net1.calico --name workload-C -tid busybox
+```
+
+In this example workload A and C cannot communicate with workload B.
+
+## Summary
 This project is basically a simple, multiplayer, ai driven version of ftl, elite, eve, [insert space game here]. The idea is that we can draw a clear analogy between containers distributed across a cluster, with ships within a sector of space. The goal here is to make something fun that demonstrates the principles of isolation of containers, as well as the portability of applications within containers.
 
 Each container represents an entity within the game world, be that a player ship, a station, a harvestable resource, an ai enemy or random encounter. These entities interact via a mediator, essential a syncing God api present in each sector. This api tracks state within each entity, and approves or denies actions each entity request. An example would be a ship tries to fire upon another ship, however has insufficient energy. The ship submits a fire request to the God api, the God api denies the request based on the fact the ship does not have sufficient energy. This prevents users submitting actions beyond their capability. Should a fire request be successful, the God api would then forward the fire request as a hit notification to the relevant party, which knows and trusts the God api.
