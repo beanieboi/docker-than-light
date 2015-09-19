@@ -1,3 +1,20 @@
-// Place all the styles related to the welcome controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  background-color: #428bca;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#296EA9), to(#428bca));
+  background-image: -webkit-linear-gradient(top, #296EA9 0, #428bca 100%);
+  background-image: -o-linear-gradient(top, #296EA9 0, #428bca 100%);
+  background-image: linear-gradient(to bottom, #296EA9 0, #428bca 100%);
+  background-repeat: repeat-x;
+}
+
+.logo {
+  color: #fff;
+  margin: 50px auto;
+  padding: 20px 0;
+  width: 500px;
+  border: 1px solid #cdbfe3;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: normal;
+  font-size: 45px;
+}
