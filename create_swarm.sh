@@ -1,11 +1,10 @@
 #!/bin/bash
 
-set -e
-
 echo "Creating swarm cluster"
 
 docker-machine create -d virtualbox local
 eval "$(docker-machine env local)"
+sleep 5s
 docker run swarm create > swarm_token
 TOKEN=`cat swarm_token`
 docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery token://$TOKEN swarm-master
