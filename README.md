@@ -28,6 +28,10 @@ docker run --publish-service srvC.net1.calico --name workload-C -tid busybox
 
 In this example workload A and C cannot communicate with workload B.
 
+## Clients
+
+Please see https://github.com/beanieboi/docker-than-light-clients
+
 ## Summary
 This project is basically a simple, multiplayer, ai driven version of ftl, elite, eve, [insert space game here]. The idea is that we can draw a clear analogy between containers distributed across a cluster, with ships within a sector of space. The goal here is to make something fun that demonstrates the principles of isolation of containers, as well as the portability of applications within containers.
 
