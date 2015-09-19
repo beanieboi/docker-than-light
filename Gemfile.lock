@@ -55,7 +55,11 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     debug_inspector (0.0.2)
+    docker-api (1.22.4)
+      excon (>= 0.38.0)
+      json
     erubis (2.7.0)
+    excon (0.45.4)
     execjs (2.6.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -145,6 +149,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3.5)
   coffee-rails (~> 4.1.0)
+  docker-api
   jquery-rails
   pg
   pry-rails

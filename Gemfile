@@ -11,6 +11,8 @@ gem 'jquery-rails'
 
 gem 'bootstrap-sass', '~> 3.3.5'
 
+gem 'docker-api', :require => 'docker'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'web-console', '~> 2.0'
