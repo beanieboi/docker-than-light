@@ -12,7 +12,8 @@ class ApiController < ApplicationController
 
   def fire
     @ship = Ship.find_by!(source: request.ip)
-    @ship.fire!
+    @ship_to_shot = Ship.find_by(source: params[:ip])
+    @ship.fire!(@ship_to_shot)
   end
 
   def scan
