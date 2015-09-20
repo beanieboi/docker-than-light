@@ -10,5 +10,5 @@ TOKEN=`cat swarm_token`
 docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery token://$TOKEN swarm-master
 docker-machine create -d virtualbox --swarm --swarm-discovery token://$TOKEN swarm-agent-00
 docker-machine create -d virtualbox --swarm --swarm-discovery token://$TOKEN swarm-agent-01
-eval $(docker-machine env --swarm swarm-master)
+sleep 10s
 
