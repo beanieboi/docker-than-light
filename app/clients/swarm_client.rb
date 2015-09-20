@@ -1,6 +1,7 @@
 require 'docker'
 class SwarmClient 
   class NotFound < StandardError; end
+  DEFAULT_PORT = "80/tcp"
   def stream_logs(ship)
     # just dump out logs for now
     container(ship.container_id).streaming_logs(stdout: true) { |stream, chunk| puts "#{stream}: #{chunk}" }
@@ -16,13 +17,15 @@ class SwarmClient
                                              "API_URL=#{ENV['API_URL']}",
                                            ], 
                                            'ExposedPorts' => {
-                                             "80/tcp" => {}
+                                             DEFAULT_PORT => {}
                                            })
-      container.start({ 'PortBindings' => {"80/tcp" => [{"HostPort" => ""}]}})
+      container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
       json = container.json
       addr = json["NetworkSettings"]["IPAddress"]
+      port = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first["HostPort"]
       ship.update_attribute(:source, addr)
+      ship.update_attribute(:port, port)
     end
   end
 
