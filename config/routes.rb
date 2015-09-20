@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get   'sectors'         => 'api#sectors'
   post  'travel/:sector'  => 'api#travel'
 
-  get   'logs/:ship_name' => 'logs#show'
+  get   'logs/:ship_name' => 'logs#show', as: :ship_log
 
   root 'welcome#index'
 end
