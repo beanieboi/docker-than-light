@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150920140247) do
+ActiveRecord::Schema.define(version: 20150920150151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,5 +27,7 @@ ActiveRecord::Schema.define(version: 20150920140247) do
     t.string   "container_id"
     t.integer  "port"
   end
+
+  add_index "ships", ["name"], name: "index_ships_on_name", unique: true, using: :btree
 
 end
