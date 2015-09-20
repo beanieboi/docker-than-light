@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150920184732) do
+ActiveRecord::Schema.define(version: 20150920185557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(version: 20150920184732) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "sectors", force: :cascade do |t|
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ships", force: :cascade do |t|
     t.text     "name",         null: false
     t.text     "image",        null: false
@@ -34,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150920184732) do
     t.datetime "updated_at",   null: false
     t.string   "container_id"
     t.integer  "port"
+    t.integer  "sector_id"
   end
 
   add_index "ships", ["name"], name: "index_ships_on_name", unique: true, using: :btree

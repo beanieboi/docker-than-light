@@ -1,5 +1,6 @@
 class Ship < ActiveRecord::Base
   has_many :events
+  belongs_to :sector
 
   def fire!
     events.create!(event_name: "fire")
