@@ -17,6 +17,14 @@ class ApiController < ApplicationController
   end
 
   def scan
+    ship = Ship.first
+    sectors = Sector.where("id not in (?)", ship.sector.id)
+    ships = ship.sector.ships.where("id not in (?)", ship.id)
+    render :json => {
+      :ships => ships,
+      :sectors => sectors,
+      :state => ship,
+    } 
   end
 
   def scan_ip
@@ -29,6 +37,7 @@ class ApiController < ApplicationController
   end
 
   def travel
+    puts params
   end
 
   private
