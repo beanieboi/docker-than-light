@@ -1,4 +1,5 @@
 class ApiController < ApplicationController
+  skip_before_filter :verify_authenticity_token
 
   def spawn
     ship = Ship.new(ship_params)
@@ -16,7 +17,7 @@ class ApiController < ApplicationController
     if @ship.fire!(@ship_to_shot)
       render :json => {
         :state => @ship,
-      } 
+      }
     else
       render :nothing => true, :status => 400
     end
@@ -31,7 +32,7 @@ class ApiController < ApplicationController
         :ships => ships,
         :sectors => sectors,
         :state => @ship,
-      } 
+      }
     else
       render :nothing => true, :status => 400
     end
@@ -55,7 +56,7 @@ class ApiController < ApplicationController
     if @ship.travel!(sector)
       render :json => {
         :state => @ship,
-      } 
+      }
     else
       render :nothing => true, :status => 400
     end
