@@ -14,6 +14,7 @@ class SwarmClient
                                            'Hostname' => ship.name,
                                            'Env' => [ 
                                              "SHIP_NAME=#{ship.name}",
+                                             "TOKEN=#{ship.token}",
                                              "API_URL=#{ENV['API_URL']}",
                                            ], 
                                            'ExposedPorts' => {
