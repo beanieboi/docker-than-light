@@ -8,14 +8,63 @@ class ShipClient
   end
 
   def hit
-    get('hit')
+    options = {
+      headers: headers,
+      body: {
+        "type": "hit",
+        "state": {
+          "name":"test", "shield":100,"energy":100
+        },
+        "payload": {
+          "damage": 10, "enemy":"fucker"
+        }
+      }
+    }
+
+    post('action', options)
+  end
+
+  def update
+    options = {
+      headers: headers,
+      body: {
+        "name": "test",
+        "shield": 100,
+        "energy": 100
+      }
+    }
+    post('update', options)
+  end
+
+  def scan
+    options = {
+      headers: headers,
+      body: {
+        "type": "scan",
+        "state": {
+          "name": "test",
+          "shield": 100,
+          "energy": 100
+        },
+        "payload": {
+          "enemy": "fucker"
+        }
+      }
+    }
+
+    post('action', options)
   end
 
   private
 
-  def get(path)
-    HTTParty.get("#{ship_url}/#{path}")
+  def headers
+    { "Authorization" => @ship.token }
   end
+
+  def post(path, options)
+    HTTParty.post("http://#{ship_url}/#{path}", options)
+  end
+
 
   def ship_url
     [@ship.source, @ship.port].join(":")
