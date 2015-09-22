@@ -28,6 +28,11 @@ class ApiController < ApplicationController
     if @ship.scan!
       sectors = Sector.where("id not in (?)", @ship.sector.id)
       ships = @ship.sector.ships.where("id not in (?)", @ship.id)
+      ships.each do |enemy|
+        client = ShipClient.new(@ship)
+        client.scan(enemy)
+      end
+
       render :json => {
         :ships => ships,
         :sectors => sectors,
