@@ -40,8 +40,11 @@ class Ship < ActiveRecord::Base
     # TODO send notification to ship
     self.update_attributes(shield: shield - FIRE_DAMAGE)
     events.create!(event_name: "hit")
+    ship_client.hit(other_ship)
+
     if shield <= 0
       events.create!(event_name: "destroyed")
+
       # TODO clean up container
     end
   end
@@ -78,6 +81,7 @@ class Ship < ActiveRecord::Base
   def self.default_attributes
     { shield: 100, energy: 100, token: SecureRandom.uuid, last_charged_at: DateTime.now }
   end
+
   private
 
   def ship_client
@@ -104,7 +108,7 @@ class Ship < ActiveRecord::Base
 
     numSecs = ((n.to_datetime - last_charged_at.to_datetime) * 24 * 60*60).to_i
     new_energy = energy + (numSecs * RECHARGE_RATE)
-    if new_energy > MAX_ENERGY 
+    if new_energy > MAX_ENERGY
       new_energy = MAX_ENERGY
     end
     update_attribute(:energy, new_energy)
