@@ -7,7 +7,9 @@ class ShipClient
     options = {
       headers: headers
     }
+
     get('_ping', options)
+  rescue Errno::ECONNREFUSED
   end
 
   def hit(enemy)
