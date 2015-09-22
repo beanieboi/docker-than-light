@@ -37,15 +37,13 @@ class Ship < ActiveRecord::Base
   end
 
   def hit!(other_ship)
-    # TODO send notification to ship
     self.update_attributes(shield: shield - FIRE_DAMAGE)
     events.create!(event_name: "hit")
     ship_client.hit(other_ship)
 
     if shield <= 0
       events.create!(event_name: "destroyed")
-
-      # TODO clean up container
+      swarm_client.destroy_ship(self)
     end
   end
 
@@ -86,6 +84,10 @@ class Ship < ActiveRecord::Base
 
   def ship_client
     ShipClient.new(self)
+  end
+
+  def swarm_client
+    SwarmClient.new
   end
 
   def can_fire?
