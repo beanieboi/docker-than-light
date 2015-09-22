@@ -80,6 +80,10 @@ class Ship < ActiveRecord::Base
     { shield: 100, energy: 100, token: SecureRandom.uuid, last_charged_at: DateTime.now }
   end
 
+  def spawn
+    swarm_client.create_ship(self)
+  end
+
   private
 
   def ship_client

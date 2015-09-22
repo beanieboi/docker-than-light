@@ -5,6 +5,7 @@ class ApiController < ApplicationController
     ship = Ship.new(ship_params)
 
     if ship.save
+      ship.spawn
       redirect_to ship_log_path(ship.name)
     else
       redirect_to :back, alert: "Ship could not be spawned"
