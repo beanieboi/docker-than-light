@@ -1,6 +1,6 @@
 ## Docker-than-light
 
-Docker-than-light is a mulitplayer docker container game. It consists of a rails app controlling a docker cluster in a simple FLT inspired space game. Each container represents a ship, and interacts with other ships and the game world via standardizes REST APIs. Each ship is essentially a microservice running in a docker container. 
+Docker-than-light is a mulitplayer docker container game. It consists of a rails app controlling a docker cluster in a simple FTL inspired space game. Each container represents a ship, and interacts with other ships and the game world via standardized REST APIs. Each ship is essentially a microservice running in a docker container. 
 
 The rules of the game are simple at this stage, but could be expanded in the future. Each ship has 100 energy which charges at a rate of 10 per seconds. This energy is used to scan the sector for other neighboring sectors as well as other ships, or to travel to other sectors. It can also be spent on firing on other ships. Each ship has limitied non-rechargeable shield which when it reaches zero will result in the ship (and container) being destroyed.
 
