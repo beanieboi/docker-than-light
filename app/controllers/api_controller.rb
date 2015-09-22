@@ -5,6 +5,7 @@ class ApiController < ApplicationController
     ship = Ship.new(ship_params)
 
     if ship.save
+      ship.spawn
       redirect_to ship_log_path(ship.name)
     else
       redirect_to :back, alert: "Ship could not be spawned"
@@ -28,6 +29,11 @@ class ApiController < ApplicationController
     if @ship.scan!
       sectors = Sector.where("id not in (?)", @ship.sector.id)
       ships = @ship.sector.ships.where("id not in (?)", @ship.id)
+      ships.each do |enemy|
+        client = ShipClient.new(@ship)
+        client.scan(enemy)
+      end
+
       render :json => {
         :ships => ships,
         :sectors => sectors,

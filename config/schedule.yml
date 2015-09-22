@@ -1,4 +1,4 @@
 my_first_job:
-  cron: "*/5 * * * *"
+  cron: "*/1 * * * *"
   class: "ShipWorker"
   queue: default
