@@ -21,10 +21,10 @@ class Ship < ActiveRecord::Base
       # SHOT IN FLIGHT
       sleep(cost[0])
       # HIT?
-      if in_same_sector? other_ship.reload
+      if in_same_sector?(other_ship.reload)
         if rand < cost[2]
           # HIT!
-          other_ship.hit!
+          other_ship.hit!(self)
           events.create!(event_name: "on_target")
           return true
         end

@@ -13,8 +13,8 @@ class ApiController < ApplicationController
 
   def fire
     @ship = get_ship
-    @ship_to_shot = Ship.find_by_name(params[:name])
-    if @ship.fire!(@ship_to_shot)
+    @ship_to_shoot = Ship.find_by_name(params[:name])
+    if @ship.fire!(@ship_to_shoot)
       render :json => {
         :state => @ship,
       }
