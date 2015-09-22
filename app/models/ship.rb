@@ -2,7 +2,7 @@ class Ship < ActiveRecord::Base
   has_many :events
   belongs_to :sector
 
-  validates :energy, inclusion: 1..100
+  validates :energy, inclusion: 0..100
 
   # Time, Energy, Probability of success
   Costs = {
@@ -11,6 +11,8 @@ class Ship < ActiveRecord::Base
     "travel" => [5, 15, 0.85]
   }
   FIRE_DAMAGE = 10
+  RECHARGE_RATE = 10
+  MAX_ENERGY = 100
 
   def fire!(other_ship)
     if can_fire? && in_same_sector?(other_ship)
@@ -74,9 +76,8 @@ class Ship < ActiveRecord::Base
   end
 
   def self.default_attributes
-    { shield: 100, energy: 100, token: SecureRandom.uuid }
+    { shield: 100, energy: 100, token: SecureRandom.uuid, last_charged_at: DateTime.now }
   end
-
   private
 
   def ship_client
@@ -84,15 +85,30 @@ class Ship < ActiveRecord::Base
   end
 
   def can_fire?
+    charge
     energy >= Costs["fire"][1]
   end
 
   def can_scan?
+    charge
     energy >= Costs["scan"][1]
   end
 
   def can_travel?
+    charge
     energy >= Costs["travel"][1]
+  end
+
+  def charge
+    n = DateTime.now
+
+    numSecs = ((n.to_datetime - last_charged_at.to_datetime) * 24 * 60*60).to_i
+    new_energy = energy + (numSecs * RECHARGE_RATE)
+    if new_energy > MAX_ENERGY 
+      new_energy = MAX_ENERGY
+    end
+    update_attribute(:energy, new_energy)
+    update_attribute(:last_charged_at, n)
   end
 
   def in_same_sector?(other_ship)
