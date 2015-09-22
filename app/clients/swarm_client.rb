@@ -1,5 +1,5 @@
 require 'docker'
-class SwarmClient 
+class SwarmClient
   class NotFound < StandardError; end
   DEFAULT_PORT = "8080/tcp"
   def stream_logs(ship)
@@ -10,13 +10,13 @@ class SwarmClient
   def create_ship(ship)
     Docker::Image.create('fromImage' => ship.image)
     if ship.container_id.nil?
-      container = Docker::Container.create('Image' => ship.image, 
+      container = Docker::Container.create('Image' => ship.image,
                                            'Hostname' => ship.name,
-                                           'Env' => [ 
+                                           'Env' => [
                                              "SHIP_NAME=#{ship.name}",
                                              "TOKEN=#{ship.token}",
                                              "API_URL=#{ENV['API_URL']}",
-                                           ], 
+                                           ],
                                            'ExposedPorts' => {
                                              DEFAULT_PORT => {}
                                            })
@@ -35,9 +35,9 @@ class SwarmClient
     ship.update_attribute(:container_id, nil)
     ship.update_attribute(:source, nil)
   end
- 
+
   private
-  
+
   def container(id)
     raise NotFound.new unless id
     container = Docker::Container.get(id)

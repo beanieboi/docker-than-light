@@ -38,7 +38,7 @@ class Ship < ActiveRecord::Base
     # TODO send notification to ship
     self.update_attributes(shield: shield - FIRE_DAMAGE)
     events.create!(event_name: "hit")
-    if shield <= 0 
+    if shield <= 0
       events.create!(event_name: "destroyed")
       # TODO clean up container
     end
