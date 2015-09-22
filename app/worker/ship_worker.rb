@@ -3,7 +3,8 @@ class ShipWorker
 
   def perform
     Ship.find_each do |ship|
-      # ping ship
+      client = ShipClient.new(ship)
+      client.update
     end
   end
 end
