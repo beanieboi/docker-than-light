@@ -79,6 +79,10 @@ class Ship < ActiveRecord::Base
 
   private
 
+  def ship_client
+    ShipClient.new(self)
+  end
+
   def can_fire?
     energy >= Costs["fire"][1]
   end
