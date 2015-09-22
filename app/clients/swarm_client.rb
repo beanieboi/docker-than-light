@@ -8,7 +8,7 @@ class SwarmClient
   end
 
   def create_ship(ship)
-#    Docker::Image.create('fromImage' => ship.image)
+    Docker::Image.create('fromImage' => ship.image)
     if ship.container_id.nil?
       container = Docker::Container.create('Image' => ship.image,
                                            'Hostname' => ship.name,
