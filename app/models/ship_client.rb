@@ -4,19 +4,20 @@ class ShipClient
   end
 
   def ping
-    get('ping')
+    options = {
+      headers: headers
+    }
+    get('_ping', options)
   end
 
-  def hit
+  def hit(enemy)
     options = {
       headers: headers,
       body: {
         "type": "hit",
-        "state": {
-          "name":"test", "shield":100,"energy":100
-        },
+        "state": @ship.to_json( :only => [:name, :shield, :energy]),
         "payload": {
-          "damage": 10, "enemy":"fucker"
+          "damage": 10, "enemy":enemy.name
         }
       }
     }
@@ -27,27 +28,19 @@ class ShipClient
   def update
     options = {
       headers: headers,
-      body: {
-        "name": "test",
-        "shield": 100,
-        "energy": 100
-      }
+      body: @ship.to_json( :only => [:name, :shield, :energy])
     }
     post('update', options)
   end
 
-  def scan
+  def scan(enemy)
     options = {
       headers: headers,
       body: {
         "type": "scan",
-        "state": {
-          "name": "test",
-          "shield": 100,
-          "energy": 100
-        },
+        "state": @ship.to_json( :only => [:name, :shield, :energy]),
         "payload": {
-          "enemy": "fucker"
+          "enemy": enemy.name
         }
       }
     }
@@ -65,6 +58,9 @@ class ShipClient
     HTTParty.post("http://#{ship_url}/#{path}", options)
   end
 
+  def get(path, options)
+    HTTParty.get("http://#{ship_url}/#{path}", options)
+  end
 
   def ship_url
     [@ship.source, @ship.port].join(":")
