@@ -18,5 +18,6 @@ class ShipClient
   end
 
   def ship_url
-    [@ship.ip, @ship.port].join(":")
+    [@ship.source, @ship.port].join(":")
+  end
 end
