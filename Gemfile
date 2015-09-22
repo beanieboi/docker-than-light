@@ -6,7 +6,7 @@ gem 'rails', '4.2.4'
 gem 'puma'
 gem 'pg'
 gem 'sidekiq'
-gem 'sidetiq'
+gem 'sidekiq-cron'
 gem 'docker-api', require: 'docker'
 
 gem 'sass-rails', '~> 5.0'
