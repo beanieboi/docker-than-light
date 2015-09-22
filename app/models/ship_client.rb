@@ -9,6 +9,7 @@ class ShipClient
 
   def hit
     options = {
+      headers: headers,
       body: {
         "type": "hit",
         "state": {
@@ -25,6 +26,7 @@ class ShipClient
 
   def update
     options = {
+      headers: headers,
       body: {
         "name": "test",
         "shield": 100,
@@ -36,6 +38,7 @@ class ShipClient
 
   def scan
     options = {
+      headers: headers,
       body: {
         "type": "scan",
         "state": {
@@ -53,6 +56,10 @@ class ShipClient
   end
 
   private
+
+  def headers
+    { "Authorization" => @ship.token }
+  end
 
   def post(path, options)
     HTTParty.post("http://#{ship_url}/#{path}", options)
