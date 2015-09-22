@@ -8,7 +8,7 @@ class SwarmClient
   end
 
   def create_ship(ship)
-    Docker::Image.create('fromImage' => ship.image)
+#    Docker::Image.create('fromImage' => ship.image)
     if ship.container_id.nil?
       container = Docker::Container.create('Image' => ship.image,
                                            'Hostname' => ship.name,
@@ -23,7 +23,7 @@ class SwarmClient
       container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
       json = container.json
-      addr = json["NetworkSettings"]["IPAddress"]
+      addr = json["NetworkSettings"]["Gateway"]
       port = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first["HostPort"]
       ship.update_attribute(:source, addr)
       ship.update_attribute(:port, port)
