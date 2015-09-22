@@ -8,8 +8,10 @@ class ShipClient
       headers: headers
     }
 
-    get('_ping', options)
+    response = get('_ping', options)
+    response.code == 200
   rescue Errno::ECONNREFUSED
+    false
   end
 
   def hit(enemy)
