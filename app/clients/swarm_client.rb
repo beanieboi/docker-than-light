@@ -23,10 +23,10 @@ class SwarmClient
       container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
       json = container.json
-      addr = json["NetworkSettings"]["Gateway"]
-      port = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first["HostPort"]
-      ship.update_attribute(:source, addr)
-      ship.update_attribute(:port, port)
+      addr = json["Node"]["Addr"]
+      parts = addr.split(":")
+      ship.update_attribute(:source, parts.first)
+      ship.update_attribute(:port, parts.last)
     end
   end
 
