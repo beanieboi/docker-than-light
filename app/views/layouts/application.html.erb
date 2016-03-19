@@ -1,13 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DockerThanLight</title>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Docker Than Light</title>
+    <%= stylesheet_link_tag    "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div class="container">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            <i class="fa fa-space-shuttle"></i>
+            Docker Than Light
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right" style="padding-right: 15px">
+            <% if logged_in? %>
+              <li><p><%= current_user.email %></p></li>
+            <% end %>
+            <li>
+              <% if logged_in? %>
+                <p>
+                  <%= link_to "Logout", sign_out_path, method: :delete, class: "btn btn-primary navbar-btn" %>
+                </p>
+              <% else %>
+                <p>
+                  <%= link_to "Sign in with GitHub", "/auth/github", class: "btn btn-primary navbar-btn" %>
+                </p>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <%= yield %>
     </div>
   </body>

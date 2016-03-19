@@ -1,4 +1,4 @@
-class LogsController < ApplicationController
+class Application::LogsController < ApplicationController
   def show
     @ship = Ship.find_by!(name: params[:ship_name])
   end
