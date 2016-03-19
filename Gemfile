@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '4.2.4'
+gem 'rails', '~> 4.2'
 gem 'puma'
 gem 'pg'
 
@@ -18,9 +18,13 @@ gem 'jquery-rails'
 gem 'font-awesome-sass'
 gem 'bootstrap-sass'
 
+group :development do
+  gem 'web-console', '~> 2.0'
+end
+
 group :development, :test do
   gem 'pry-rails'
-  gem 'web-console', '~> 2.0'
+  gem 'capybara-rails'
 end
 
 group :production do
