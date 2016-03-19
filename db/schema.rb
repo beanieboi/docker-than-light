@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922041252) do
+ActiveRecord::Schema.define(version: 20160319061726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,5 +47,12 @@ ActiveRecord::Schema.define(version: 20150922041252) do
   end
 
   add_index "ships", ["name"], name: "index_ships_on_name", unique: true, using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.text     "email",      null: false
+    t.integer  "github_uid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

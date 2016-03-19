@@ -1,0 +1,13 @@
+<div class="col-md-4">
+  <%= form_tag("/api/spawn", method: "post") do %>
+    <div class="form-group">
+      <input type="text" class="form-control" name="image" id="inputImage" placeholder="Image">
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" name="name" id="inputName" placeholder="Name">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default btn-lg">Spawn Ship</button>
+    </div>
+  <% end %>
+</div>
