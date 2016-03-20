@@ -7,7 +7,7 @@ gem 'puma'
 gem 'pg'
 
 gem 'sidekiq'
-gem 'sidekiq-cron'
+gem 'sidekiq-scheduler'
 gem 'docker-api', require: 'docker'
 gem 'httparty'
 gem 'omniauth-github'
