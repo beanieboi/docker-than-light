@@ -2,9 +2,8 @@ require 'docker'
 class SwarmClient
   class NotFound < StandardError; end
   DEFAULT_PORT = "8080/tcp"
-  def stream_logs(ship)
-    # just dump out logs for now
-    container(ship.container_id).streaming_logs(stdout: true) { |stream, chunk| puts "#{stream}: #{chunk}" }
+  def stream_logs(ship, &block)
+    container(ship.container_id).streaming_logs(stdout: true) { |stream, chunk| yield "#{stream}: #{chunk}" }
   end
 
   def create_ship(ship)
