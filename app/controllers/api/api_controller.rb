@@ -1,15 +1,4 @@
 class Api::ApiController < Api::ApplicationController
-  def spawn
-    ship = Ship.new(ship_params)
-
-    if ship.save
-      ship.spawn
-      redirect_to ship_log_path(ship.name)
-    else
-      redirect_to :back, alert: "Ship could not be spawned"
-    end
-  end
-
   def fire
     @ship = ship
     @ship_to_shoot = Ship.find_by_name(params[:name])
@@ -65,11 +54,5 @@ class Api::ApiController < Api::ApplicationController
     else
       render nothing: true, status: 400
     end
-  end
-
-  private
-
-  def ship_params
-    Ship.default_attributes.merge(name: params[:name], image: params[:image])
   end
 end
