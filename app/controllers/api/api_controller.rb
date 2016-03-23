@@ -25,7 +25,7 @@ class Api::ApiController < Api::ApplicationController
 
   def scan
     @ship = ship
-    if @ship.scan!
+    if @ship.scan! && @ship.sector
       sectors = Sector.where.not(id: @ship.sector.id)
       ships = @ship.sector.ships.where.not(id: @ship.id)
       ships.each do |enemy|
@@ -71,9 +71,5 @@ class Api::ApiController < Api::ApplicationController
 
   def ship_params
     Ship.default_attributes.merge(name: params[:name], image: params[:image])
-  end
-
-  def ship
-    Ship.find_by!(token: authentication_token)
   end
 end
