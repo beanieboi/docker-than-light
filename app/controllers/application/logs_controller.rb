@@ -3,7 +3,7 @@ class Application::LogsController < ApplicationController
     @ship = Ship.find_by!(name: params[:ship_name])
     self.response_body = Enumerator.new do |y|
       swarm_client.stream_logs(@ship) do |l|
-        y << l
+        y << l + "<br>"
       end
     end
   end
