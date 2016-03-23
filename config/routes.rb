@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   scope module: 'application' do
     resource :dashboard, only: [:show]
+    resource :ships, only: [:create]
     get 'logs/:ship_name' => 'logs#show', as: :ship_log
   end
 
