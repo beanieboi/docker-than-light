@@ -28,10 +28,10 @@ class SwarmClient
         source = parts.first
         port = parts.last
       else
-        addr = json["NetworkSettings"]["Gateway"]
+        source = json["NetworkSettings"]["Gateway"]
         port = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first["HostPort"]
       end
-      ship.update_attribute(:source, addr)
+      ship.update_attribute(:source, source)
       ship.update_attribute(:port, port)
     end
   end
