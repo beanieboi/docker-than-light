@@ -18,8 +18,10 @@ class Api::ApiController < Api::ApplicationController
       sectors = Sector.where.not(id: @ship.sector.id)
       ships = @ship.sector.ships.where.not(id: @ship.id)
       ships.each do |enemy|
-        client = ShipClient.new(@ship)
-        client.scan(enemy)
+        begin
+          client = ShipClient.new(@ship)
+          client.scan(enemy)
+        rescue;end
       end
 
       render json: {
