@@ -42,6 +42,14 @@ class SwarmClient
     ship.update_attribute(:source, nil)
   end
 
+  def create_network(sector)
+    Docker::Network.create(sector.name)
+  end
+
+  def delete_network(sector)
+    Docker::Network.remove(sector.name)
+  end
+
   private
 
   def container(id)
