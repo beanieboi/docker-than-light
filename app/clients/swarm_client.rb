@@ -18,7 +18,12 @@ class SwarmClient
                                            ],
                                            'ExposedPorts' => {
                                              DEFAULT_PORT => {}
+                                           },
+                                           'HostConfig' => {
+                                             'NetworkMode' => ship.sector.name,
+                                             'PublishAllPorts' => true
                                            })
+      set_initial_network(ship, ship.sector)
       container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
       json = container.json
@@ -47,7 +52,23 @@ class SwarmClient
   end
 
   def delete_network(sector)
-    Docker::Network.remove(sector.name)
+    Docker::Network.remove(sector.network_id)
+  end
+
+  def set_initial_network(ship, sector)
+    bridge = Docker::Network.all.select {|n| n.info['Name'] == "bridge"}.first
+    if bridge
+      bridge.disconnect(ship.container_id)
+    end
+    new_net = network(sector.network_id)
+    new_net.connect(ship.container_id)
+  end
+
+  def switch_network(ship, old_sector, new_sector)
+    old_net = network(old_sector.network_id)
+    new_net = network(new_sector.network_id)
+    old_net.disconnect(ship.container_id)
+    new_net.connect(ship.container_id)
   end
 
   private
@@ -59,5 +80,14 @@ class SwarmClient
       raise NotFound.new
     end
     return container
+  end
+
+  def network(id)
+    raise NotFound.new unless id
+    network = Docker::Network.get(id)
+    if network.nil?
+      raise NotFound.new
+    end
+    return network
   end
 end

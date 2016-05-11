@@ -70,7 +70,9 @@ class Ship < ActiveRecord::Base
       events.create!(event_name: "travelling")
       if rand < cost[2]
         # SUCCESS
+        old_sector = self.sector
         self.update_attributes(sector: sector)
+        swarm_client.switch_network(self, old_sector, sector)
         return true
       end
     end

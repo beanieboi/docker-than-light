@@ -1,16 +1,22 @@
 class Sector < ActiveRecord::Base
   has_many :ships
 
-  after_create :create_network
+  before_create :create_network
   before_destroy :delete_network
   private
 
   def create_network
-    swarm_client.create_network(self)
+    if network_id == nil
+      network = swarm_client.create_network(self)
+      self.network_id = network.id
+    end
   end
 
   def delete_network
-    swarm_client.delete_network(self)
+    if network_id
+      swarm_client.delete_network(self)
+      update_attribute(:network_id, nil)
+    end
   end
 
   def swarm_client
