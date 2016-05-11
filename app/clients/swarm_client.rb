@@ -67,7 +67,11 @@ class SwarmClient
   def switch_network(ship, old_sector, new_sector)
     old_net = network(old_sector.network_id)
     new_net = network(new_sector.network_id)
-    old_net.disconnect(ship.container_id)
+    begin
+      old_net.disconnect(ship.container_id)
+    rescue Docker::Error::ServerError => e
+      raise e unless e.message =~ /is not connected to the network/
+    end
     new_net.connect(ship.container_id)
   end
 
