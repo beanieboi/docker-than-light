@@ -27,15 +27,10 @@ class SwarmClient
       ship.update_attribute(:container_id, container.id)
       set_initial_network(ship, ship.sector)
       json = container.json
-      if json["Node"]
-        addr = json["Node"]["Addr"]
-        parts = addr.split(":")
-        source = parts.first
-        port = parts.last
-      else
-        source = json["NetworkSettings"]["Gateway"]
-        port = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first["HostPort"]
-      end
+   
+      network_info = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first
+      source = network_info["HostIp"]
+      port = network_info["HostPort"]
       ship.update_attribute(:source, source)
       ship.update_attribute(:port, port)
     end
