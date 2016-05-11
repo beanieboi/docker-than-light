@@ -23,9 +23,9 @@ class SwarmClient
                                              'NetworkMode' => ship.sector.name,
                                              'PublishAllPorts' => true
                                            })
-      set_initial_network(ship, ship.sector)
       container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
+      set_initial_network(ship, ship.sector)
       json = container.json
       if json["Node"]
         addr = json["Node"]["Addr"]
