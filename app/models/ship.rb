@@ -39,11 +39,12 @@ class Ship < ActiveRecord::Base
   def hit!(other_ship)
     self.update_attributes(shield: shield - FIRE_DAMAGE)
     events.create!(event_name: "hit")
-    ship_client.hit(other_ship)
 
     if shield <= 0
       events.create!(event_name: "destroyed")
       swarm_client.destroy_ship(self)
+    else
+      ship_client.hit(other_ship)
     end
   end
 
