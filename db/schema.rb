@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20160319061726) do
     t.text     "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.cidr     "range",      null: false
   end
 
   create_table "ships", force: :cascade do |t|
