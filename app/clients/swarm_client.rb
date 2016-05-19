@@ -51,7 +51,7 @@ class SwarmClient
   end
 
   def set_initial_network(ship, sector)
-    bridge = Docker::Network.all.select {|n| n.info['Name'] == "bridge"}.first
+    bridge = Docker::Network.all.select {|n| n.info['Name'] =~ /bridge/}.first
     if bridge
       bridge.disconnect(ship.container_id)
     end
