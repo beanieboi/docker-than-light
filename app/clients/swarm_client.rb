@@ -25,7 +25,6 @@ class SwarmClient
                                            })
       container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
-      set_initial_network(ship, ship.sector)
       json = container.json
    
       network_info = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first
@@ -48,15 +47,6 @@ class SwarmClient
 
   def delete_network(sector)
     Docker::Network.remove(sector.network_id)
-  end
-
-  def set_initial_network(ship, sector)
-    bridge = Docker::Network.all.select {|n| n.info['Name'] =~ /bridge/}.first
-    if bridge
-      bridge.disconnect(ship.container_id)
-    end
-    new_net = network(sector.network_id)
-    new_net.connect(ship.container_id)
   end
 
   def switch_network(ship, old_sector, new_sector)
