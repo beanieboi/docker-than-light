@@ -46,6 +46,8 @@ class Ship < ActiveRecord::Base
     else
       ship_client.hit(other_ship)
     end
+  rescue
+    # handle ship not responding!
   end
 
   def scan!
