@@ -23,19 +23,13 @@ class SwarmClient
                                              'NetworkMode' => ship.sector.name,
                                              'PublishAllPorts' => true
                                            })
-      set_initial_network(ship, ship.sector)
       container.start({ 'PortBindings' => {DEFAULT_PORT => [{"HostPort" => ""}]}})
       ship.update_attribute(:container_id, container.id)
       json = container.json
-      if json["Node"]
-        addr = json["Node"]["Addr"]
-        parts = addr.split(":")
-        source = parts.first
-        port = parts.last
-      else
-        source = json["NetworkSettings"]["Gateway"]
-        port = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first["HostPort"]
-      end
+   
+      network_info = json["NetworkSettings"]["Ports"][DEFAULT_PORT].first
+      source = network_info["HostIp"]
+      port = network_info["HostPort"]
       ship.update_attribute(:source, source)
       ship.update_attribute(:port, port)
     end
@@ -55,19 +49,14 @@ class SwarmClient
     Docker::Network.remove(sector.network_id)
   end
 
-  def set_initial_network(ship, sector)
-    bridge = Docker::Network.all.select {|n| n.info['Name'] == "bridge"}.first
-    if bridge
-      bridge.disconnect(ship.container_id)
-    end
-    new_net = network(sector.network_id)
-    new_net.connect(ship.container_id)
-  end
-
   def switch_network(ship, old_sector, new_sector)
     old_net = network(old_sector.network_id)
     new_net = network(new_sector.network_id)
-    old_net.disconnect(ship.container_id)
+    begin
+      old_net.disconnect(ship.container_id)
+    rescue Docker::Error::ServerError => e
+      raise e unless e.message =~ /is not connected to the network/
+    end
     new_net.connect(ship.container_id)
   end
 
