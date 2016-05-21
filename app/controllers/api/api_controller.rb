@@ -5,7 +5,7 @@ class Api::ApiController < Api::ApplicationController
 
     if @ship.fire!(@ship_to_shoot)
       render json: {
-        state: @ship,
+        state: @ship.as_json(only: ship_fields),
       }
     else
       render nothing: true, status: 400
@@ -21,13 +21,14 @@ class Api::ApiController < Api::ApplicationController
         begin
           client = ShipClient.new(@ship)
           client.scan(enemy)
-        rescue;end
+        rescue;
+        # TODO handle when we fail to update a ship
+        end
       end
-
       render json: {
-        ships: ships,
-        sectors: sectors,
-        state: @ship,
+        ships: ships.as_json(only: ship_fields),
+        sectors: sectors.as_json(only: [:name]),
+        state: @ship.as_json(only: ship_fields)
       }
     else
       render nothing: true, status: 400
@@ -41,6 +42,13 @@ class Api::ApiController < Api::ApplicationController
   end
 
   def sectors
+    @ship = ship
+    ship.charge
+    sectors = Sector.where.not(id: @ship.sector.id)
+      render json: {
+        sectors: sectors.as_json(only: [:name]),
+        state: @ship.as_json( :only => ship_fields )
+      }
   end
 
   def travel
@@ -51,10 +59,16 @@ class Api::ApiController < Api::ApplicationController
     end
     if @ship.travel!(sector)
       render :json => {
-        :state => @ship,
+        :state => @ship.as_json(only: ship_fields),
       }
     else
       render nothing: true, status: 400
     end
+  end
+
+  private
+
+  def ship_fields
+    [:name, :image, :shield, :energy]
   end
 end
