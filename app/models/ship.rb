@@ -4,6 +4,7 @@ class Ship < ActiveRecord::Base
 
   validates :energy, inclusion: 0..100
 
+  before_destroy :destroy_ship
   # Time, Energy, Probability of success
   Costs = {
     "fire"   => [1, 12, 0.75],
@@ -42,7 +43,7 @@ class Ship < ActiveRecord::Base
 
     if shield <= 0
       events.create!(event_name: "destroyed")
-      swarm_client.destroy_ship(self)
+      swarm_client.stop_ship(self)
     else
       ship_client.hit(other_ship)
     end
@@ -128,5 +129,9 @@ class Ship < ActiveRecord::Base
 
   def in_same_sector?(other_ship)
     sector == other_ship.sector
+  end
+
+  def destroy_ship
+    swarm_client.destroy_ship(self)
   end
 end

@@ -35,6 +35,10 @@ class SwarmClient
     end
   end
 
+  def stop_ship(ship)
+    container(ship.container_id).stop(:force => true)
+  end
+
   def destroy_ship(ship)
     container(ship.container_id).delete(:force => true)
     ship.update_attribute(:container_id, nil)
