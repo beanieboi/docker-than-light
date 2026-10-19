@@ -5,7 +5,7 @@ class SessionsController < Website::ApplicationController
       sign_in(user)
       redirect_to dashboard_path
     else
-      redirect_to :back, alert: "Could not perform login"
+      redirect_back fallback_location: root_path, alert: "Could not perform login"
     end
   end
 

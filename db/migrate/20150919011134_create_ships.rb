@@ -1,4 +1,4 @@
-class CreateShips < ActiveRecord::Migration
+class CreateShips < ActiveRecord::Migration[4.2]
   def change
     create_table :ships do |t|
       t.text :name, null: false

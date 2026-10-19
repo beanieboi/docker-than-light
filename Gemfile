@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '4.0.7'
 
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 8.1.0'
 gem 'puma'
 gem 'pg'
 
@@ -11,22 +11,20 @@ gem 'sidekiq-scheduler'
 gem 'docker-api', require: 'docker'
 gem 'httparty'
 gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
 
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'sprockets-rails'
+gem 'dartsass-sprockets'
+gem 'terser'
 gem 'jquery-rails'
 gem 'font-awesome-sass'
 gem 'bootstrap-sass'
 
 group :development do
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
 end
 
 group :development, :test do
   gem 'pry-rails'
-  gem 'capybara-rails'
-end
-
-group :production do
-  gem 'rails_12factor'
+  gem 'capybara'
 end

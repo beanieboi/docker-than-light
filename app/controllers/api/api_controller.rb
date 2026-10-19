@@ -8,7 +8,7 @@ class Api::ApiController < Api::ApplicationController
         state: @ship.as_json(only: ship_fields),
       }
     else
-      render nothing: true, status: 400
+      head :bad_request
     end
   end
 
@@ -31,7 +31,7 @@ class Api::ApiController < Api::ApplicationController
         state: @ship.as_json(only: ship_fields)
       }
     else
-      render nothing: true, status: 400
+      head :bad_request
     end
   end
 
@@ -55,14 +55,14 @@ class Api::ApiController < Api::ApplicationController
     @ship = ship
     sector = Sector.find_by_name(params[:sector])
     unless sector
-      render nothing: true, status: 404
+      head :not_found
     end
     if @ship.travel!(sector)
       render :json => {
         :state => @ship.as_json(only: ship_fields),
       }
     else
-      render nothing: true, status: 400
+      head :bad_request
     end
   end
 

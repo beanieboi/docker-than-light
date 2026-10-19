@@ -6,7 +6,7 @@ class Application::ShipsController < ApplicationController
       ship.spawn
       redirect_to ship_log_path(ship.name)
     else
-      redirect_to :back, alert: "Ship could not be spawned"
+      redirect_back fallback_location: root_path, alert: "Ship could not be spawned"
     end
   end
 

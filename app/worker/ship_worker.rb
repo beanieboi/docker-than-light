@@ -1,5 +1,5 @@
 class ShipWorker
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform
     Ship.find_each do |ship|

@@ -1,0 +1,4 @@
+:scheduler:
+  :schedule:
+    ShipWorker:
+      cron: "*/1 * * * *"

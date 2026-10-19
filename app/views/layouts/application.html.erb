@@ -36,7 +36,7 @@
                 </p>
               <% else %>
                 <p>
-                  <%= link_to "Sign in with GitHub", "/auth/github", class: "btn btn-primary navbar-btn" %>
+                  <%= button_to "Sign in with GitHub", "/auth/github", method: :post, form_class: "navbar-form", class: "btn btn-primary navbar-btn" %>
                 </p>
               <% end %>
             </li>

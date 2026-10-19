@@ -1,6 +1,6 @@
 class Ship < ActiveRecord::Base
   has_many :events
-  belongs_to :sector
+  belongs_to :sector, optional: true
 
   validates :energy, inclusion: 0..100
 
@@ -19,7 +19,7 @@ class Ship < ActiveRecord::Base
     if can_fire? && in_same_sector?(other_ship)
       # FIRE
       cost = Costs["fire"]
-      self.update_attributes(energy: energy - cost[1])
+      self.update(energy: energy - cost[1])
       events.create!(event_name: "fire")
       # SHOT IN FLIGHT
       sleep(cost[0])
@@ -38,7 +38,7 @@ class Ship < ActiveRecord::Base
   end
 
   def hit!(other_ship)
-    self.update_attributes(shield: shield - FIRE_DAMAGE)
+    self.update(shield: shield - FIRE_DAMAGE)
     events.create!(event_name: "hit")
 
     if shield <= 0
@@ -55,7 +55,7 @@ class Ship < ActiveRecord::Base
     if can_scan?
       # SCAN
       cost = Costs["scan"]
-      self.update_attributes(energy: energy - cost[1])
+      self.update(energy: energy - cost[1])
       events.create!(event_name: "scanning")
       if rand < cost[2]
         # SUCCESS
@@ -69,12 +69,12 @@ class Ship < ActiveRecord::Base
     if can_travel?
       # TRAVEL
       cost = Costs["travel"]
-      self.update_attributes(energy: energy - cost[1])
+      self.update(energy: energy - cost[1])
       events.create!(event_name: "travelling")
       if rand < cost[2]
         # SUCCESS
         old_sector = self.sector
-        self.update_attributes(sector: sector)
+        self.update(sector: sector)
         swarm_client.switch_network(self, old_sector, sector)
         return true
       end

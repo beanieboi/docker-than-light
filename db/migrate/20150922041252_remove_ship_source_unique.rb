@@ -1,4 +1,4 @@
-class RemoveShipSourceUnique < ActiveRecord::Migration
+class RemoveShipSourceUnique < ActiveRecord::Migration[4.2]
   def change
     remove_index :ships, :source
   end
